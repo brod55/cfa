@@ -1,0 +1,16 @@
+[Unit]
+Description=Retail Workload Orchestrator
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+StandardError=null
+StandardOutput=null
+WorkingDirectory=/opt/rwo/compose
+ExecStart=/bin/sh -c "sleep  $(awk \"BEGIN{print $((1 + RANDOM % 500)) / 10 + 5}\"); /opt/rwo/bin/startrwo.sh"
+ExecStop=/opt/rwo/bin/stoprwo.sh
+
+[Install]
+WantedBy=default.target
